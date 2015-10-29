@@ -12,7 +12,7 @@ let Wrapper = React.createClass({
 
 let MyComponent = React.createClass({
     render: function() {
-        return (<Wrapper>hello world</Wrapper>);
+        return (<Wrapper>hello mundo</Wrapper>);
     }
 });
 
