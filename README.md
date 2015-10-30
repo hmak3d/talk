@@ -1,24 +1,30 @@
-[Preview](https://github.com/hmak3d/talk/blob/master/README.md)
+Effective Git
+=============
+
+2015-11-04
+
+*	[At GitHub](https://github.com/hmak3d/talk/blob/master/README.md)
+*	[Local preview](file:///Users/howard/code/git/talk/README.html)
 
 <style>
-table, th, td { border: 1px solid #bbb; }
-code { font-weight: bold; }
-pre { color: #070; }
-h1, h2 { color: #A00; }
-h1 { text-decoration: underline; }
-h2 { font-variant: small-caps;; }
-h3 { font-style: oblique; text-decoration: overline; }
+	table, th, td { border: 1px solid #bbb; }
+	code { font-weight: bold; }
+	pre { color: #070; }
+	h1, h2 { color: #A00; }
+	h1 { text-decoration: underline; }
+	h2 { font-variant: small-caps;; }
+	h3 { font-style: oblique; text-decoration: overline; }
 </style>
 
-Git talk
---------
+Basics
+------
 
 *	Git = file system snapshots (not deltas)
 *	Basics: `git clone`, `git add`, `git commit`, `git push`, `git pull` = (`git fetch` + `git merge`)
 *	Basics: `git branch`, `git checkout`
 *	Basics: `git stash`, `git stash pop`, `git stash clear`
 
-### Commit ranges
+## Commit ranges
 
 Following are all same
 
@@ -29,7 +35,7 @@ $ git log refB --not refA
 
 ```
 
-`..` + `...` has different meanings between `log` vs `diff`
+double dot (`..`) + triple dot (`...`) has different meanings between `git log` vs `git diff`
 
 command | double dot (..) | triple dot (...)
 ------- | --------------- | ----------------
@@ -38,7 +44,7 @@ command | double dot (..) | triple dot (...)
 
 http://stackoverflow.com/questions/7251477/what-are-the-differences-between-double-dot-and-triple-dot-in-git-dif#answer-7256391
 
-### Relative commits (^ vs ~)
+## Relative commits (^ vs ~)
 
 Ref     | Meaning
 ------- | ------------------------------
@@ -51,7 +57,7 @@ Ref     | Meaning
 
 https://git-scm.com/book/en/v2/Git-Tools-Revision-Selection#Ancestry-References
 
-### Getting status
+## Getting status
 
 `git status -s`
 
@@ -75,7 +81,7 @@ UU views/viewer/viewer.js
 *	UU are the conflicts during `git rebase`
 *	Left is local branch.  Right is branch being merged in.
 
-### Survey of commands
+## Survey of commands
 
 *	`git bisect` to find a bug
 *	`git log`
@@ -98,7 +104,7 @@ UU views/viewer/viewer.js
 *	`git merge -Xignore-all-space` to reduce conflicts
 *	Avoid adding new files in merges.  `git log`, `gitk` and many other git tools don't *by default* show merge deltas.
 
-### reset vs checkout
+## reset vs checkout
 
 `reset` affects 3 "modes"
 *	Repository
@@ -113,7 +119,7 @@ UU views/viewer/viewer.js
 
 https://git-scm.com/book/en/v2/Git-Tools-Reset-Demystified
 
-### rebase vs merge vs reset
+## rebase vs merge vs reset
 
 *	When to rebase [instead of merge]?
 *	Never push a reset/rebase on `master`
@@ -139,14 +145,14 @@ https://git-scm.com/book/en/v2/Git-Tools-Reset-Demystified
 
 	What if already did opposite? ... then do a branch to master merge to restore "lineage" back to master.
 
-### Getting out of jams
+## Getting out of jams
 
 *	How do I cherry-pick changes (i.e., selective merge)?
 *	How do I minimize merge conflicts? https://git-scm.com/book/en/v2/Git-Tools-Advanced-Merging#ignoring-whitespace-netDFEhacJ
 *	How to undo a merge? https://git-scm.com/blog/2010/03/02/undoing-merges.html
 *	How to undo a merge undo?  Why would one want to do this?
 
-### GrabCAD specific
+## GrabCAD specific
 
 ```
 $ grunt bumpcommit
@@ -154,9 +160,15 @@ $ grunt bumpcommit
 
 https://docs.google.com/document/d/1WkMp2b3nydn4Z4pS2grwc7oA7XLCpyG9SF50sGAvEmM/edit#heading=h.q6qiz7z2pq8h
 
-### Development
+## Development
 
 * Vim Git plugin:     http://www.vim.org/scripts/script.php?script_id=90
+
+	```
+	let mapleader = ","
+	let VCSCommandMapPrefix = "<Leader>v"	" So that VCSCommand uses ,v instead of ,c
+	```
+
 * Bash Git autocomplete
 
 	```
