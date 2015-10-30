@@ -6,6 +6,7 @@
   "scripts": {
     "build-js": "browserify -t babelify pub/main.jsx -o pub/bundle.js -d",
     "watch-js": "watchify -t babelify pub/main.jsx -o pub/bundle.js -dv",
+    "doc": "marked -o notes.html notes.md",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -22,6 +23,7 @@
   "devDependencies": {
     "babelify": "^6.4.0",
     "browserify": "^12.0.1",
+    "marked": "^0.3.5",
     "watchify": "^3.5.0"
   },
   "dependencies": {
