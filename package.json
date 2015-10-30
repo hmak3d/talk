@@ -6,7 +6,7 @@
   "scripts": {
     "build-js": "browserify -t babelify pub/main.jsx -o pub/bundle.js -d",
     "watch-js": "watchify -t babelify pub/main.jsx -o pub/bundle.js -dv",
-    "doc": "marked -o notes.html notes.md",
+    "doc": "marked -o README.html README.md",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
