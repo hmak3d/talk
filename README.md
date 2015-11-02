@@ -20,29 +20,60 @@ Concepts
 --------
 
 *	Git = file system snapshots (not deltas) ... well, almost true minus [pack files](http://stackoverflow.com/questions/8198105/how-does-git-store-files)
+*	Each repo has entire history (more or less)
+
+### Git Object
+
+Git is basically a key-value database where keys are SHA1 hashes and values are Git objects
+
+*	Blob (i.e., file)
+*	Tree (i.e., directory)
+*	Commit (has reference to parent commits)
+*	Annotated tag
+
+<img src="https://git-scm.com/book/en/v2/book/10-git-internals/images/data-model-3.png" alt="example graph" style="width: 600px"/>
+
+[See Pro Git book](https://git-scm.com/book/en/v2/Git-Internals-Git-Objects)
 
 ### Git Reference
 
-*	"pointer" to Git object
+*	Is a "pointer" to Git object
+*	commit-ish reference points to Git commits
+*	tree-ish reference points to Git trees (either directly
 *	Is SHA1 hash or `.git/refs/SOMEPATH` file that leads to SHA1 hash
 
 [See "gitrevisions" manpage](https://git-scm.com/docs/gitrevisions)
 
-### Git Object
+### Branches
 
-*	blob (i.e., file)
-*	tree (i.e., directory; tree-ish = pointer to tree)
-*	commit (commit-ish = pointer to commit)
-*	annotated tag
+Branches are references to commits.
 
-<img src="https://git-scm.com/book/en/v2/book/10-git-internals/images/data-model-3.png" alt="example graph" style="width: 600px"/>
+*	Local branch
+*	Remote branch
+*	Remote tracking branch
 
-... Git is basically a key-value database where keys are SHA1 hashes and values are Git objects
-
-[See Pro Git book](https://git-scm.com/book/en/v2/Git-Internals-Git-Objects)
+### Remote repositories
 
 Basic commands
 --------------
+
+### TL;DR
+
+```
+# Create local repo
+$ git clone git@github.com:GrabCAD/eagle-print.git
+$ vim README.txt
+$ git add README.txt
+$ git commit README.txt
+
+# Sync between local + remote repos
+$ git push
+$ git pull
+
+# Create new branch and push to original repo
+$ git checkout -b NEW_BRANCH
+$ git push -u origin NEW_BRANCH
+```
 
 ### "Porcelain" commands
 
@@ -52,10 +83,10 @@ Basic commands
 
 ### "Plumbing" commands
 
-*	`git rev-parse`
-*	`git rev-list`
-*	`git show`
-*	`git ls-tree`
+*	`git rev-parse REF`
+*	`git rev-list REF..REF`
+*	`git show --raw REF`
+*	`git ls-tree REF`
 
 ### Commit ranges
 
@@ -95,6 +126,14 @@ Getting status
 --------------
 
 `git status -s`
+
+```
+MM README.md
+```
+
+*	1st column is staging area.  2nd column is working directory.
+
+During conflicts
 
 ```
 M  services/configService.js
@@ -177,6 +216,8 @@ Survey of commands
 	*	`git log -m` to analyze merge commits
 	*	`git log --graph --oneline --decorate'` to see text render of `gitk`
 	*	`git log --graph --format="%h%d %an [%ar] %s"`
+
+*	`git ls-files --error-unmatch PATH` to see if a file is tracked
 
 *	`git blame/log` through file renames
 
@@ -277,4 +318,4 @@ Resources
 *	http://alblue.bandlem.com/Tag/gtotw/ (Blog covering tips that shed light on Git internals)
 *	http://www.git-tower.com/blog/git-cheat-sheet (Git CLI command cheat sheet)
 
-// vim:noet:ic
+// vim:noet:ic:isk+=-
