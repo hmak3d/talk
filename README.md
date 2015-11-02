@@ -26,14 +26,16 @@ Concepts
 *	"pointer" to Git object
 *	Is SHA1 hash or `.git/refs/SOMEPATH` file that leads to SHA1 hash
 
-[See reference](https://git-scm.com/docs/gitrevisions)
+[See "gitrevisions" manpage](https://git-scm.com/docs/gitrevisions)
 
 ### Git Object
 
 *	blob (i.e., file)
-*	tree (pointers are tree-ish)
-*	commit (pointers are commit-ish)
+*	tree (i.e., directory; tree-ish = pointer to tree)
+*	commit (commit-ish = pointer to commit)
 *	annotated tag
+
+<img src="https://git-scm.com/book/en/v2/book/10-git-internals/images/data-model-3.png" alt="example graph" style="width: 600px"/>
 
 ... Git is basically a key-value database where keys are SHA1 hashes and values are Git objects
 
@@ -42,9 +44,18 @@ Concepts
 Basic commands
 --------------
 
+### "Porcelain" commands
+
 *	Basics: `git clone`, `git add`, `git commit`, `git push`, `git pull` = (`git fetch` + `git merge`)
 *	Basics: `git branch`, `git checkout`
 *	Basics: `git stash`, `git stash pop`, `git stash clear`
+
+### "Plumbing" commands
+
+*	`git rev-parse`
+*	`git rev-list`
+*	`git show`
+*	`git ls-tree`
 
 ### Commit ranges
 
@@ -78,6 +89,8 @@ Ref     | Meaning
 
 [See Pro Git book](https://git-scm.com/book/en/v2/Git-Tools-Revision-Selection#Ancestry-References)
 
+Use `git rev-parse` to find the SHA1 hash a reference refers to.
+
 Getting status
 --------------
 
@@ -103,30 +116,6 @@ UU views/viewer/viewer.js
 *	UU are the conflicts during `git rebase`
 *	Left is local branch.  Right is branch being merged in.
 
-Survey of commands
-------------------
-
-*	`git bisect` to find a bug
-*	`git log`
-	*	`git log -S STRING` to find string in diff (i.e., who deleted a line)
-	*	`git log -G REGEXP` to find a regexp pattern in diff
-	*	`git log -p` to report deltas
-	*	`git log -m` to analyze merge commits
-*	`git blame/log` through file renames
-*	`git rebase` to rewrite history (1) combine commits (2) split commits
-*	`git add -p` to trickle in new changes into several commits
-*	`git reset` magic
-*	`git reflog` to recover from rebase/reset
-*	`git revert -m KEEP` to undo a merge
-	*	https://git-scm.com/docs/git-revert
-	*	https://github.com/git/git/blob/master/Documentation/howto/revert-a-faulty-merge.txt
-*	`git tag` pruning
-*	`git push REMOTE :SPEC` to delete tags + branches on remote
-*	`git clean -nxd` to scrub
-*	`gitk` and search on file path
-*	`git merge -Xignore-all-space` to reduce conflicts
-*	Avoid adding new files in merges.  `git log`, `gitk` and many other git tools don't *by default* show merge deltas.
-
 reset vs checkout
 -----------------
 
@@ -147,11 +136,16 @@ rebase vs merge vs reset
 ------------------------
 
 *	When to rebase [instead of merge]?
+
 *	Never push a reset/rebase on `master`
+
 *	Never push a reset/rebase on branch unless *all* collaborators willing to either
+
 	*	throw away their local changes
 	*	rebase their changes on the new head.  Note: A merge would undermine the point of the initial rebase.
+
 *	Which way to merge (master to branch 1st or branch to master 1st)?
+
 *	`master` -> `branch` merge vs `branch` -> `master` -> `branch` merge
 
 	```
@@ -170,6 +164,51 @@ rebase vs merge vs reset
 
 	What if already did opposite? ... then do a branch to master merge to restore "lineage" back to master.
 
+*	Avoid adding new files in merges.  `git log`, `gitk` and many other git tools don't *by default* show merge deltas.
+
+Survey of commands
+------------------
+
+*	`git log`
+
+	*	`git log -S STRING` to find string in diff (i.e., who deleted a line)
+	*	`git log -G REGEXP` to find a regexp pattern in diff
+	*	`git log -p` to report deltas
+	*	`git log -m` to analyze merge commits
+	*	`git log --graph --oneline --decorate'` to see text render of `gitk`
+	*	`git log --graph --format="%h%d %an [%ar] %s"`
+
+*	`git blame/log` through file renames
+
+*	`git rebase` to rewrite history (1) combine commits (2) split commits
+
+*	`git add -p` to trickle in new changes into several commits
+
+*	`git reset` magic
+
+*	`git reflog` to recover from rebase/reset
+
+*	`git revert -m KEEP` to undo a merge
+
+	*	https://git-scm.com/docs/git-revert
+	*	https://github.com/git/git/blob/master/Documentation/howto/revert-a-faulty-merge.txt
+
+*	`git tag` pruning
+
+	```
+	$ git config --global alias.prunetag '!git tag -l | xargs git tag -d && git fetch -t'
+	```
+
+*	`git push REMOTE :SPEC` to delete tags + branches on remote
+
+*	`git clean -nxd` to scrub
+
+*	`gitk` and search on file path
+
+*	`git merge -Xignore-all-space` to reduce conflicts
+
+*	`git bisect` to find a bug
+
 Getting out of jams
 -------------------
 
@@ -181,16 +220,19 @@ Getting out of jams
 GrabCAD specific
 ----------------
 
-```
-$ grunt bumpcommit
-```
+*	Use `grunt bumpcommit` in node development
 
-https://docs.google.com/document/d/1WkMp2b3nydn4Z4pS2grwc7oA7XLCpyG9SF50sGAvEmM/edit#heading=h.q6qiz7z2pq8h
+	https://docs.google.com/document/d/1WkMp2b3nydn4Z4pS2grwc7oA7XLCpyG9SF50sGAvEmM/edit#heading=h.q6qiz7z2pq8h
 
-Make sure to do `git push --tag` *and* `git push`
+*	Don't forget to push tags.  Do _both_:
 
-Development
------------
+	```
+	$ git push --tag
+	$ git push
+	```
+
+Development Environment
+-----------------------
 
 * Vim Git plugin:     http://www.vim.org/scripts/script.php?script_id=90
 
@@ -228,10 +270,11 @@ Development
 Resources
 ---------
 
+*	https://git-scm.com/book/en/v2 (Pro Git book by Chacon & Straub)
 *	https://try.github.io/levels/1/challenges/1 (Interactive online tutorial for Git basics)
-*	http://pcottle.github.io/learnGitBranching/ (Interactive online tutorial for more Git basics)
-*	http://gitref.org/index.html (Crash course)
-*	http://alblue.bandlem.com/Tag/gtotw/ (Blog covering use cases that shed light on Git internals)
+*	http://pcottle.github.io/learnGitBranching/ (Interactive online tutorial for more advanced Git)
+*	http://gitref.org/index.html (Concise survey of Git)
+*	http://alblue.bandlem.com/Tag/gtotw/ (Blog covering tips that shed light on Git internals)
 *	http://www.git-tower.com/blog/git-cheat-sheet (Git CLI command cheat sheet)
 
 // vim:noet:ic
