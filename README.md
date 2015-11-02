@@ -80,6 +80,7 @@ File has 4 states:
         *   `.git/refs/pull/[0-9]+/(head|merge)` = point to pull request commit
 
     *   Colon path (e.g., `:1:README.md`) (for [merges](https://git-scm.com/book/en/v2/Git-Tools-Advanced-Merging#_manual_remerge) `:1` for common stage, `:2` for merge target, `:3` for merge source)
+	*	^ or ~ suffixed (see below "Relative commits")
     *   ... and more types at ["gitrevisions" manpage](https://git-scm.com/docs/gitrevisions)
 
 *	tree-ish = anything that points to a Git tree
@@ -92,15 +93,62 @@ File has 4 states:
 Branches are references to commits.
 
 *	Local branch
-*	Remote branch
-*	Remote tracking branch
+*	Remote branch (local snapshot vs revision on remote repo)
+*	Remote tracking branch = local branch pegged to remote branch
+
+#### Relative commits (^ vs ~)
+
+Ref     | Meaning
+------- | ------------------------------
+^       | parent
+^2      | 2nd parent (for merges)
+~       | parent
+~2      | grandparent
+~~      | grandparent
+^^      | grandparent (*not* ^2)
+
+[See Pro Git book](https://git-scm.com/book/en/v2/Git-Tools-Revision-Selection#Ancestry-References)
+
+Use `git rev-parse` to find the SHA1 hash a reference refers to.
+
+#### Commit ranges
+
+Following are all same
+
+```
+$ git log refA..refB
+$ git log ^refA refB
+$ git log refB --not refA
+```
+
+double dot (`..`) + triple dot (`...`) has different meanings between `git log` vs `git diff`
+
+command | double dot (..) | triple dot (...)
+------- | --------------- | ----------------
+![git diff](http://mythic-beasts.com/~mark/git-diff-help.png) | A -> B       | mergeBase(A, B) -> B
+![git log](http://mythic-beasts.com/~mark/git-log-for-upload-smaller.png) | reach(B) - reach(A) | reach(B) + reach(A) - reach(mergeBase(A, B))
+
+http://stackoverflow.com/questions/7251477/what-are-the-differences-between-double-dot-and-triple-dot-in-git-dif#answer-7256391
 
 ### Remote repositories
+
+*	`git clone` will create `origin` tracking remote repository (name `origin` is convention and not inherently special)
+*	`git remote add REMOTE_NAME URL`
+*	`git remote -v`
+*	`git push REMOTE_NAME`
+
+#### Demo
+
+```
+$ git remote add pc /Volumes/Users/howard/code/hmak3d/eagle-desktop
+$ git push -u pc mybranch
+$ ls -la .git/refs/remotes/
+```
 
 Basic commands
 --------------
 
-[See git-scm](https://git-scm.com/docs)
+[See full list at git-scm](https://git-scm.com/docs)
 
 ### TL;DR
 
@@ -125,8 +173,8 @@ $ git push -u origin NEW_BRANCH
 ### "Porcelain" commands
 
 *	Basics: `git clone`, `git add`, `git commit`, `git push`, `git pull` = (`git fetch` + `git merge`)
-*	Basics: `git branch`, `git checkout`
-*	Basics: `git stash`, `git stash pop`, `git stash clear`
+*	Branching: `git branch`, `git checkout`
+*	Stashing: `git stash`, `git stash pop`, `git stash clear`
 
 ### "Plumbing" commands
 
@@ -136,40 +184,6 @@ $ git push -u origin NEW_BRANCH
 *	`git show --raw REV`
 *	`git ls-tree REV`
 *	`git merge-base REV REV`
-
-### Commit ranges
-
-Following are all same
-
-```
-$ git log refA..refB
-$ git log ^refA refB
-$ git log refB --not refA
-```
-
-double dot (`..`) + triple dot (`...`) has different meanings between `git log` vs `git diff`
-
-command | double dot (..) | triple dot (...)
-------- | --------------- | ----------------
-![git diff](http://mythic-beasts.com/~mark/git-diff-help.png) | A -> B       | mergeBase(A, B) -> B
-![git log](http://mythic-beasts.com/~mark/git-log-for-upload-smaller.png) | reach(B) - reach(A) | reach(B) + reach(A) - reach(mergeBase(A, B))
-
-http://stackoverflow.com/questions/7251477/what-are-the-differences-between-double-dot-and-triple-dot-in-git-dif#answer-7256391
-
-### Relative commits (^ vs ~)
-
-Ref     | Meaning
-------- | ------------------------------
-^       | parent
-^2      | 2nd parent (for merges)
-~       | parent
-~2      | grandparent
-~~      | grandparent
-^^      | grandparent (*not* ^2)
-
-[See Pro Git book](https://git-scm.com/book/en/v2/Git-Tools-Revision-Selection#Ancestry-References)
-
-Use `git rev-parse` to find the SHA1 hash a reference refers to.
 
 Getting status
 --------------
@@ -319,10 +333,11 @@ Survey of commands
 Getting out of jams
 -------------------
 
-*	How do I cherry-pick changes (i.e., selective merge)?
+*	How do I cherry-pick changes (i.e., selective merge)? (`-m 1` to generate diff against 1st parent)
 *	How do I minimize merge conflicts? [See Pro Git book](https://git-scm.com/book/en/v2/Git-Tools-Advanced-Merging#ignoring-whitespace-netDFEhacJ)
 *	How to undo a merge? [See Pro Git book](https://git-scm.com/blog/2010/03/02/undoing-merges.html)
 *	How to undo a merge undo?  Why would one want to do this?
+*	How do I find which commit introduced a bug?
 
 GrabCAD specific
 ----------------
