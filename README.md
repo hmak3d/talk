@@ -185,6 +185,8 @@ $ grunt bumpcommit
 
 https://docs.google.com/document/d/1WkMp2b3nydn4Z4pS2grwc7oA7XLCpyG9SF50sGAvEmM/edit#heading=h.q6qiz7z2pq8h
 
+Make sure to do `git push --tag` *and* `git push`
+
 Development
 -----------
 
