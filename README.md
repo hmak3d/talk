@@ -79,7 +79,7 @@ File has 4 states:
         *   `.git/refs/remotes` =
         *   `.git/refs/pull/[0-9]+/(head|merge)` = point to pull request commit
 
-    *   Colon path (e.g., `:0:README.md`) (for [merges](https://git-scm.com/book/en/v2/Git-Tools-Advanced-Merging#_manual_remerge) `:0` for common stage, `:1` for merge target, `:2` for merge source)
+    *   Colon path (e.g., `:1:README.md`) (for [merges](https://git-scm.com/book/en/v2/Git-Tools-Advanced-Merging#_manual_remerge) `:1` for common stage, `:2` for merge target, `:3` for merge source)
     *   ... and more types at ["gitrevisions" manpage](https://git-scm.com/docs/gitrevisions)
 
 *	tree-ish = anything that points to a Git tree
@@ -223,6 +223,8 @@ reset vs checkout
 rebase vs merge vs reset
 ------------------------
 
+### Rebasing
+
 *	When to rebase [instead of merge]?
 
 *	Never push a reset/rebase on `master`
@@ -231,6 +233,8 @@ rebase vs merge vs reset
 
 	*	throw away their local changes
 	*	rebase their changes on the new head.  Note: A merge would undermine the point of the initial rebase.
+
+### Merging
 
 *	Which way to merge (master to branch 1st or branch to master 1st)?
 
@@ -253,6 +257,17 @@ rebase vs merge vs reset
 	What if already did opposite? ... then do a branch to master merge to restore "lineage" back to master.
 
 *	Avoid adding new files in merges.  `git log`, `gitk` and many other git tools don't *by default* show merge deltas.
+
+*   Show `master` ever be fast forwarded on a merge?
+
+### Resetting
+
+Do this to:
+
+*   "undo" an accidental commit not yet pushed
+*   "undo" a rebase (use with `git reflog`)
+*   With *caution*: recover from a pushed rebase (you will lose changes)
+*   Split a commit during rebasing
 
 Survey of commands
 ------------------
