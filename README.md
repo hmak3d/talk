@@ -20,31 +20,74 @@ Concepts
 --------
 
 *	Git = file system snapshots (not deltas) ... well, almost true minus [pack files](http://stackoverflow.com/questions/8198105/how-does-git-store-files)
+
+    e.g.,
+
+    Subversion conceptually does
+
+    <img src="https://git-scm.com/book/en/v2/book/01-introduction/images/deltas.png" alt="deltas over time" style="width:500px"/>
+
+    wherease Git conceptually does
+
+    <img src="https://git-scm.com/book/en/v2/book/01-introduction/images/snapshots.png" alt="snapshots over time" style="width:500px"/>
+
 *	Each repo has entire history (more or less)
 
 ### Git Object
 
-Git is basically a key-value database where keys are SHA1 hashes and values are Git objects
+Git is basically a key-value database where keys are SHA1 hashes and values are Git objects (e.g., `.git/objects/05/7915f4dc999e1a7903b4e58f33df27419701b9`)
 
 *	Blob (i.e., file)
 *	Tree (i.e., directory)
 *	Commit (has reference to parent commits)
 *	Annotated tag
 
-<img src="https://git-scm.com/book/en/v2/book/10-git-internals/images/data-model-3.png" alt="example graph" style="width: 600px"/>
+<img src="https://git-scm.com/book/en/v2/book/10-git-internals/images/data-model-3.png" alt="example graph" style="width:500px"/>
+
+#### Demo
+
+```
+$ ls -la .git/objects/
+$ git rev-parse head
+$ git cat-file -p 50ed0df
+$ git cat-file -p 9393828
+$ git cat-file -p c2b9c90
+```
 
 [See Pro Git book](https://git-scm.com/book/en/v2/Git-Internals-Git-Objects)
 
-### Git Reference
+### Staging Area
+
+File has 4 states:
+
+1.  untracked
+1.  modified
+1.  staged
+1.  committed
+
+<img src="https://git-scm.com/book/en/v2/book/01-introduction/images/areas.png" alt="areas" style="width:400px"/>
+
+### Git Revision/Name
 
 *	Is a "pointer" to Git object
-*	commit-ish reference points to Git commits
-*	tree-ish reference points to Git trees (either directly
-*	Is SHA1 hash or `.git/refs/SOMEPATH` file that leads to SHA1 hash
+*	Types of pointers
+	*	SHA1 (e.g., `50ed0df30cbb0322331af9256711a94b622f990d`)
+	*	Reference (e.g., `.git/refs/SOMEPATH` path that leads to SHA1 hash) [See Pro Git book](https://git-scm.com/book/en/v2/Git-Internals-Git-References)
 
-[See "gitrevisions" manpage](https://git-scm.com/docs/gitrevisions)
+        *   `.git/refs/heads` = point to last commit for a branch
+        *   `.git/refs/tags`  = point to lightweight [not annotated] tag
+        *   `.git/refs/remotes` =
+        *   `.git/refs/pull/[0-9]+/(head|merge)` = point to pull request commit
 
-### Branches
+    *   Colon path (e.g., `:0:README.md`) (for [merges](https://git-scm.com/book/en/v2/Git-Tools-Advanced-Merging#_manual_remerge) `:0` for common stage, `:1` for merge target, `:2` for merge source)
+    *   ... and more types at ["gitrevisions" manpage](https://git-scm.com/docs/gitrevisions)
+
+*	tree-ish = anything that points to a Git tree
+*	commit-ish = anything that points to a Git commit
+	*	Is also a tree-ish
+	*	See [Stack Overflow article](http://stackoverflow.com/questions/23303549/what-are-commit-ish-and-tree-ish-in-git)
+
+#### Branches
 
 Branches are references to commits.
 
@@ -57,7 +100,11 @@ Branches are references to commits.
 Basic commands
 --------------
 
+[See git-scm](https://git-scm.com/docs)
+
 ### TL;DR
+
+Covers 90% of Git usages
 
 ```
 # Create local repo
@@ -83,10 +130,12 @@ $ git push -u origin NEW_BRANCH
 
 ### "Plumbing" commands
 
-*	`git rev-parse REF`
-*	`git rev-list REF..REF`
-*	`git show --raw REF`
-*	`git ls-tree REF`
+*	`git rev-parse REV`
+*	`git rev-list REV..REV`
+*	`git cat-file -p REV`
+*	`git show --raw REV`
+*	`git ls-tree REV`
+*	`git merge-base REV REV`
 
 ### Commit ranges
 
@@ -249,6 +298,8 @@ Survey of commands
 *	`git merge -Xignore-all-space` to reduce conflicts
 
 *	`git bisect` to find a bug
+
+*   `git remote prune` to delete remote branches
 
 Getting out of jams
 -------------------
