@@ -26,6 +26,8 @@ Concepts
 *	"pointer" to Git object
 *	Is SHA1 hash or `.git/refs/SOMEPATH` file that leads to SHA1 hash
 
+[See reference](https://git-scm.com/docs/gitrevisions)
+
 ### Git Object
 
 *	blob (i.e., file)
@@ -35,7 +37,7 @@ Concepts
 
 ... Git is basically a key-value database where keys are SHA1 hashes and values are Git objects
 
-[See Git book](https://git-scm.com/book/en/v2/Git-Internals-Git-Objects)
+[See Pro Git book](https://git-scm.com/book/en/v2/Git-Internals-Git-Objects)
 
 Basic commands
 --------------
@@ -74,7 +76,7 @@ Ref     | Meaning
 ~~      | grandparent
 ^^      | grandparent (*not* ^2)
 
-[See Git book](https://git-scm.com/book/en/v2/Git-Tools-Revision-Selection#Ancestry-References)
+[See Pro Git book](https://git-scm.com/book/en/v2/Git-Tools-Revision-Selection#Ancestry-References)
 
 Getting status
 --------------
@@ -139,7 +141,7 @@ reset vs checkout
 	*	`reset` moves HEAD *and* the branch HEAD points to
 	*	`checkout` moves just HEAD
 
-[See Git book](https://git-scm.com/book/en/v2/Git-Tools-Reset-Demystified)
+[See Pro Git book](https://git-scm.com/book/en/v2/Git-Tools-Reset-Demystified)
 
 rebase vs merge vs reset
 ------------------------
@@ -172,8 +174,8 @@ Getting out of jams
 -------------------
 
 *	How do I cherry-pick changes (i.e., selective merge)?
-*	How do I minimize merge conflicts? [See Git book](https://git-scm.com/book/en/v2/Git-Tools-Advanced-Merging#ignoring-whitespace-netDFEhacJ)
-*	How to undo a merge? [See Git book](https://git-scm.com/blog/2010/03/02/undoing-merges.html)
+*	How do I minimize merge conflicts? [See Pro Git book](https://git-scm.com/book/en/v2/Git-Tools-Advanced-Merging#ignoring-whitespace-netDFEhacJ)
+*	How to undo a merge? [See Pro Git book](https://git-scm.com/blog/2010/03/02/undoing-merges.html)
 *	How to undo a merge undo?  Why would one want to do this?
 
 GrabCAD specific
