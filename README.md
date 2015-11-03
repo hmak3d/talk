@@ -3,8 +3,40 @@ Effective Git
 
 2015-11-04
 
-*	[At GitHub](https://github.com/hmak3d/talk/blob/master/README.md)
-*	[Local preview](file:///Users/howard/code/git/talk/README.html)
+*	[This document at GitHub](https://github.com/hmak3d/talk/blob/master/README.md)
+*	[This document as local preview](file:///Users/howard/code/git/talk/README.html)
+
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+## Table of Contents
+
+- [Concepts](#concepts)
+  - [Git Object](#git-object)
+    - [Demo](#demo)
+  - [Staging Area](#staging-area)
+  - [Git Revision/Name](#git-revisionname)
+    - [Branches](#branches)
+    - [Relative commits (^ vs ~)](#relative-commits-%5E-vs-)
+    - [Commit ranges](#commit-ranges)
+  - [Remote repositories](#remote-repositories)
+    - [Demo](#demo-1)
+- [Basic commands](#basic-commands)
+  - [TL;DR](#tldr)
+  - ["Porcelain" commands](#porcelain-commands)
+  - ["Plumbing" commands](#plumbing-commands)
+- [Getting status](#getting-status)
+- [reset vs checkout](#reset-vs-checkout)
+- [rebase vs merge vs reset](#rebase-vs-merge-vs-reset)
+  - [Rebasing](#rebasing)
+  - [Merging](#merging)
+  - [Resetting](#resetting)
+- [Survey of commands](#survey-of-commands)
+- [Getting out of jams](#getting-out-of-jams)
+- [GrabCAD specific](#grabcad-specific)
+- [Development Environment](#development-environment)
+- [Resources](#resources)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 <style>
 	table, th, td { border: 1px solid #bbb; }
