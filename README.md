@@ -345,7 +345,7 @@ Survey of commands
 
 *	`git rebase` to rewrite history (1) combine commits (2) split commits
 
-*	`git add -p` to trickle in new changes into several commits
+*	`git add -p` (or `git add -i`) to trickle in new changes into several commits
 
 *	`git reset` magic
 
@@ -393,8 +393,14 @@ GrabCAD specific
 *	Don't forget to push tags.  Do _both_:
 
 	```
-	$ git push --tag
+	$ git push --tags
 	$ git push
+	```
+
+	or
+
+	```
+	$ git push origin head --tags
 	```
 
 Development Environment
