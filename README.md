@@ -12,14 +12,14 @@ Effective Git
 
 - [Concepts](#concepts)
   - [Git Object](#git-object)
-    - [Demo](#demo)
+    - [Example](#example)
   - [Staging Area](#staging-area)
   - [Git Revision/Name](#git-revisionname)
     - [Branches](#branches)
     - [Relative commits (^ vs ~)](#relative-commits-%5E-vs-)
     - [Commit ranges](#commit-ranges)
   - [Remote repositories](#remote-repositories)
-    - [Demo](#demo-1)
+    - [Example](#example-1)
 - [Basic commands](#basic-commands)
   - [TL;DR](#tldr)
   - ["Porcelain" commands](#porcelain-commands)
@@ -51,19 +51,31 @@ Effective Git
 Concepts
 --------
 
-*	Git = file system snapshots (not deltas) ... well, almost true minus [pack files](http://stackoverflow.com/questions/8198105/how-does-git-store-files)
+*	Git tracks file system snapshots (not deltas)
 
     e.g.,
 
-    Subversion conceptually does
+    Subversion tracks deltas (revisions are constructed)
 
     <img src="https://git-scm.com/book/en/v2/book/01-introduction/images/deltas.png" alt="deltas over time" style="width:500px"/>
 
-    wherease Git conceptually does
+    whereas Git tracks snapshots (deltas are derived)
 
     <img src="https://git-scm.com/book/en/v2/book/01-introduction/images/snapshots.png" alt="snapshots over time" style="width:500px"/>
 
-*	Each repo has entire history (more or less)
+	However
+
+	*	[pack files](http://stackoverflow.com/questions/8198105/how-does-git-store-files) uses deltas internally but this is transparent
+
+*	A `repository` is a set of snapshots with parent-child relationships.  Each repository has entire history.
+
+	*	Can restore a GitHub repo from a cloned copy!
+
+	However
+
+	*	Unreferenced commits are garbage collected
+	*	By default, clones don't have pull requests (PR)
+	*	By default, lightweight tags are not cloned/synced
 
 ### Git Object
 
@@ -76,7 +88,7 @@ Git is basically a key-value database where keys are SHA1 hashes and values are 
 
 <img src="https://git-scm.com/book/en/v2/book/10-git-internals/images/data-model-3.png" alt="example graph" style="width:500px"/>
 
-#### Demo
+#### Example
 
 ```
 $ ls -la .git/objects/
@@ -169,7 +181,7 @@ http://stackoverflow.com/questions/7251477/what-are-the-differences-between-doub
 *	`git remote -v`
 *	`git push REMOTE_NAME`
 
-#### Demo
+#### Example
 
 ```
 $ git remote add pc /Volumes/Users/howard/code/hmak3d/eagle-desktop
