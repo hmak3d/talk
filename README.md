@@ -352,7 +352,9 @@ Survey of commands
 	*	`git log --graph --oneline --decorate'` to see text render of `gitk`
 	*	`git log --graph --format="%h%d %an [%ar] %s"`
 
-*	`git ls-files --error-unmatch PATH` to see if a file is tracked
+*	`git push REMOTE :SPEC` to delete tags + branches on remote
+
+*	`git ls-files --error-unmatch PATH` or `git cat-file -t :0:PATH` to see if a file is tracked
 
 *	`git blame/log` through file renames
 
@@ -362,8 +364,6 @@ Survey of commands
 	$ git blame      --follow RENAME_SHA^ -- OLD_FILENAME
 	$ git log --stat --follow RENAME_SHA^ -- OLD_FILENAME
 	```
-
-*	`git add -p` (or `git add -i`) to trickle in new changes into several commits
 
 *	`git reset` magic
 
@@ -375,17 +375,15 @@ Survey of commands
 	$ git config --global alias.prunetag '!git tag -l | xargs git tag -d && git fetch -t'
 	```
 
-*	`git push REMOTE :SPEC` to delete tags + branches on remote
-
-*	`git clean -nxd` to scrub
+*	`git clean -nxd` + `-fxd` to scrub
 
 *	`gitk` and search on file path
 
 *	`git merge -Xignore-all-space` to reduce conflicts
 
-*	`git bisect` to find a bug
+*   `git remote prune` or `git fetch --prune` to delete remote-tracking branches
 
-*   `git remote prune` to delete remote branches
+*	`git add -p` (or `git add -i`) to trickle in new changes into several commits
 
 ### Example: doing a rebase
 
@@ -393,8 +391,8 @@ Survey of commands
 
 ```
 $ git fetch origin
-$ git rebase -i master
-$ git rebase -i origin/branch
+$ git rebase -i 
+$ git add -p PATH
 ```
 
 ### Example: undoing a merge
@@ -409,6 +407,30 @@ $ git revert -m 1
 
 *	https://git-scm.com/docs/git-revert
 *	https://github.com/git/git/blob/master/Documentation/howto/revert-a-faulty-merge.txt
+
+### Example: git bisect to find a bug
+
+```
+$ git bisect start
+$ git bisect bad [BAD_COMMITTISH]	# Omit default to HEAD
+$ git bisect good GOOD_COMMITTISH	# Puts you into commit 1/2-way btwn good and bad
+
+$ git bisect bad	# Lower upper bound
+$ git bisect good	# Increase lower bound
+
+# Repeat "git bisect (bad | good)" to adjust bounds.  Stop when upper = lower.
+# i.e., repeated do: TESTSCRIPT && git bisect bad || git bisect good
+
+$ git bisect reset	# Clean up
+```
+
+or let Git repeat the tests using
+
+```
+$ git bisect start BAD_COMMITTISH GOOD_COMMITTISH
+$ git bisect run TESTSCRIPT	# Find earliest commit where TESTSCRIPT *fails*
+$ git bisect reset	# Clean up
+```
 
 Getting out of jams
 -------------------
