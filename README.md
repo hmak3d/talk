@@ -105,10 +105,12 @@ $ git cat-file -p c2b9c90
 
 File has 4 states:
 
-1.  untracked
-1.  modified
-1.  staged
-1.  committed
+state     | working directory | staging area | repository
+--------- | ----------------- | ------------ | ----------
+untracked | new               |              |
+modified  | new               | old          | old
+staged    |                   | new          | old
+committed |                   |              | x
 
 <img src="https://git-scm.com/book/en/v2/book/01-introduction/images/areas.png" alt="areas" style="width:400px"/>
 
