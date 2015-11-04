@@ -12,13 +12,13 @@ Effective Git
 
 - [Concepts](#concepts)
   - [Git Object](#git-object)
-    - [Example: view Git objects](#example-view-git-objects)
+    - [Example: View Git objects](#example-view-git-objects)
   - [Git Revision/Name](#git-revisionname)
     - [Branches](#branches)
     - [Relative commits (^ vs ~)](#relative-commits-%5E-vs-)
     - [Commit ranges](#commit-ranges)
   - [Remote repositories](#remote-repositories)
-    - [Example: syncing across repos laterally](#example-syncing-across-repos-laterally)
+    - [Example: Sync across repos laterally](#example-sync-across-repos-laterally)
 - [Basic commands](#basic-commands)
   - [TL;DR](#tldr)
     - [Example: understand git status output](#example-understand-git-status-output)
@@ -29,8 +29,9 @@ Effective Git
   - [Merging](#merging)
   - [Resetting](#resetting)
 - [Survey of commands](#survey-of-commands)
-  - [Example: doing a rebase](#example-doing-a-rebase)
-  - [Example: undoing a merge](#example-undoing-a-merge)
+  - [Example: Do a rebase](#example-do-a-rebase)
+  - [Example: Undo a merge](#example-undo-a-merge)
+  - [Example: Find a bug using git bisect](#example-find-a-bug-using-git-bisect)
 - [Getting out of jams](#getting-out-of-jams)
 - [GrabCAD specific](#grabcad-specific)
 - [Development Environment](#development-environment)
@@ -89,7 +90,7 @@ Git is basically a key-value database where keys are SHA1 hashes and values are 
 
 <img src="https://git-scm.com/book/en/v2/book/10-git-internals/images/data-model-3.png" alt="example graph" style="width:500px"/>
 
-#### Example: view Git objects
+#### Example: View Git objects
 
 ```
 $ ls -la .git/objects/
@@ -175,7 +176,7 @@ http://stackoverflow.com/questions/7251477/what-are-the-differences-between-doub
 *	`git remote -v`
 *	`git push REMOTE_NAME`
 
-#### Example: syncing across repos laterally
+#### Example: Sync across repos laterally
 
 ```
 $ git remote add pc /Volumes/Users/howard/code/hmak3d/eagle-desktop
@@ -277,16 +278,19 @@ committed |                   |              | x
 reset vs checkout
 -----------------
 
-`reset` affects 3 "modes"
-*	Repository
-*	Index/Staging Area
-*	Local working directory
-
-`checkout` just changes local working directory
-
 *	Moving references
 	*	`reset` moves HEAD *and* the branch HEAD points to
 	*	`checkout` moves just HEAD
+
+`reset` runs in 3 modes
+
+mode      | working directory | staging area | repository
+--------- | ----------------- | ------------ | ----------
+`--soft`  |                   |              | yes
+`--mixed` |                   | yes          | yes
+`--hard`  | yes               | yes          | yes     
+
+`checkout` generally affects just working directory and staging area.
 
 [See Pro Git book](https://git-scm.com/book/en/v2/Git-Tools-Reset-Demystified)
 
@@ -385,51 +389,68 @@ Survey of commands
 
 *	`git add -p` (or `git add -i`) to trickle in new changes into several commits
 
-### Example: doing a rebase
+### Example: Do a rebase
 
-`git rebase` to rewrite history (1) combine commits (2) split commits
+`git rebase` to rewrite history
+
+To split commits:
 
 ```
-$ git fetch origin
-$ git rebase -i 
-$ git add -p PATH
+	$ git fetch origin
+	$ git rebase -i START_REV_EXCLUDED # and use "edit" on commit to split
+	$ git reset head~
+	$ git add -p PATH
+	$ git commit
+	$ git add -p PATH
+	$ git commit
+	$ git rebase --continue
 ```
 
-### Example: undoing a merge
+To combine commits:
+
+```
+	$ git fetch origin
+	$ git rebase -i START_REV_EXCLUDED # and use "squash" on later commits
+	$ git commit
+	$ git rebase --continue
+```
+
+### Example: Undo a merge
 
 `git revert -m KEEP` to undo a merge
 
 ```
-$ git log -1 -m REV
-$ git rev-parse REV^1
-$ git revert -m 1
+	$ git log -1 -m -p REV
+	$ git rev-parse REV^1 # To make sure `-m` argument is current
+	$ git revert -m 1
 ```
 
 *	https://git-scm.com/docs/git-revert
 *	https://github.com/git/git/blob/master/Documentation/howto/revert-a-faulty-merge.txt
 
-### Example: git bisect to find a bug
+### Example: Find a bug using git bisect
 
 ```
-$ git bisect start
-$ git bisect bad [BAD_COMMITTISH]	# Omit default to HEAD
-$ git bisect good GOOD_COMMITTISH	# Puts you into commit 1/2-way btwn good and bad
-
-$ git bisect bad	# Lower upper bound
-$ git bisect good	# Increase lower bound
-
-# Repeat "git bisect (bad | good)" to adjust bounds.  Stop when upper = lower.
-# i.e., repeated do: TESTSCRIPT && git bisect bad || git bisect good
-
-$ git bisect reset	# Clean up
+	$ git bisect start BAD_COMMITTISH GOOD_COMMITTISH
+	$ git bisect run TESTSCRIPT	# Find earliest commit where TESTSCRIPT *fails*
+	$ git bisect reset	# Clean up
 ```
 
-or let Git repeat the tests using
+logically same as manual steps
+
 
 ```
-$ git bisect start BAD_COMMITTISH GOOD_COMMITTISH
-$ git bisect run TESTSCRIPT	# Find earliest commit where TESTSCRIPT *fails*
-$ git bisect reset	# Clean up
+	$ git bisect start
+	$ git bisect bad [BAD_COMMITTISH]	# Omit default to HEAD
+	$ git bisect good GOOD_COMMITTISH	# Puts you into commit 1/2-way btwn good and bad
+
+	$ git bisect bad	# Lower upper bound
+	$ git bisect good	# Increase lower bound
+
+	# Repeat "git bisect (bad | good)" to adjust bounds.  Stop when upper = lower.
+	# i.e., repeated do: TESTSCRIPT && git bisect bad || git bisect good
+
+	$ git bisect reset	# Clean up
 ```
 
 Getting out of jams
