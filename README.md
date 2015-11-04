@@ -436,6 +436,8 @@ Development Environment
 	*	GitHub Desktop (Git GUI) https://desktop.github.com/
 	*	TortoiseGit (GUI Integrated w/ Windows Explorer) https://tortoisegit.org/
 
+* Chrome search engine `https://git-scm.com/search/results?search=%s`
+
 * Vim ag integration: https://robots.thoughtbot.com/faster-grepping-in-vim
 * Plug for Silver Searcher (ag)
 
