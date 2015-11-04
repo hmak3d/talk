@@ -85,7 +85,7 @@ Git is basically a key-value database where keys are SHA1 hashes and values are 
 *	Blob (i.e., file)
 *	Tree (i.e., directory)
 *	Commit (has reference to parent commits)
-*	Annotated tag
+*	Annotated tag (lightweight tags are _not_ objects)
 
 <img src="https://git-scm.com/book/en/v2/book/10-git-internals/images/data-model-3.png" alt="example graph" style="width:500px"/>
 
