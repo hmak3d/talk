@@ -127,7 +127,7 @@ Branches are references to commits.
 *	Local branch (e.g., `.git/refs/heads/master`)
 *	Remote branch (e.g., `.git/refs/heads/master` on remote repository)
 *	Remote-tracking branch (e.g., `.git/refs/remotes/origin/master`) = last know position of "remote branch"
-*	Tracking branch = Local branch pegged to remote-tracking branch
+*	Tracking branch = Local branch pegged to remote-tracking branch (e.g., `branch.merge` entry in `.git/config`)
 
 #### Relative commits (^ vs ~)
 
