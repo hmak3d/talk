@@ -22,9 +22,9 @@ Effective Git
     - [Example](#example-1)
 - [Basic commands](#basic-commands)
   - [TL;DR](#tldr)
-  - ["Porcelain" commands](#porcelain-commands)
-  - ["Plumbing" commands](#plumbing-commands)
-- [Getting status](#getting-status)
+  - [Porcelain commands](#porcelain-commands)
+    - [Example](#example-2)
+  - [Plumbing commands](#plumbing-commands)
 - [reset vs checkout](#reset-vs-checkout)
 - [rebase vs merge vs reset](#rebase-vs-merge-vs-reset)
   - [Rebasing](#rebasing)
@@ -219,13 +219,43 @@ $ git checkout -b NEW_BRANCH
 $ git push -u origin NEW_BRANCH
 ```
 
-### "Porcelain" commands
+### Porcelain commands
 
 *	Basics: `git clone`, `git add`, `git commit`, `git push`, `git pull` = (`git fetch` + `git merge`)
 *	Branching: `git branch`, `git checkout`
 *	Stashing: `git stash`, `git stash pop`, `git stash clear`
 
-### "Plumbing" commands
+#### Example
+
+`git status` short output uses: 1st column is staging area. 2nd column is working directory.
+
+	```
+	$ git status -s
+	MM README.md
+	```
+
+During conflicts
+*	UU are the conflicts during `git rebase`
+*	Left is local branch.  Right is branch being merged in.
+
+	```
+	M  services/configService.js
+	M  services/fileService.js
+	M  services/geometryService.js
+	UU services/index.js
+	M  services/loggingService.js
+	M  services/menu/menuService.js
+	M  services/modalService.js
+	M  services/parameterService.js
+	M  services/pluginService.js
+	M  services/printerService.js
+	M  services/projectService.js
+	M  services/translationService.js
+	M  services/validationService.js
+	UU views/viewer/viewer.js
+	```
+
+### Plumbing commands
 
 *	`git rev-parse REV` to resolve a revision to the SHA1
 *	`git rev-list REV1..REV2` to resolve a revision range to list of SHA1's
@@ -233,39 +263,6 @@ $ git push -u origin NEW_BRANCH
 *	`git show --raw REV` is similar to `cat-file` but less low level and has prettier output
 *	`git ls-tree REV` to recursively do `cat-file -p` until you hit a Git tree object
 *	`git merge-base REV1 REV2` to find the last fork point between two branches
-
-Getting status
---------------
-
-`git status -s`
-
-```
-MM README.md
-```
-
-*	1st column is staging area.  2nd column is working directory.
-
-During conflicts
-
-```
-M  services/configService.js
-M  services/fileService.js
-M  services/geometryService.js
-UU services/index.js
-M  services/loggingService.js
-M  services/menu/menuService.js
-M  services/modalService.js
-M  services/parameterService.js
-M  services/pluginService.js
-M  services/printerService.js
-M  services/projectService.js
-M  services/translationService.js
-M  services/validationService.js
-UU views/viewer/viewer.js
-```
-
-*	UU are the conflicts during `git rebase`
-*	Left is local branch.  Right is branch being merged in.
 
 reset vs checkout
 -----------------
