@@ -105,8 +105,8 @@ $ git cat-file -p c2b9c90
 
 *	Is a "pointer" to Git object
 *	Types of pointers
-	*	SHA1 (e.g., `50ed0df30cbb0322331af9256711a94b622f990d`)
-	*	Reference (e.g., `.git/refs/SOMEPATH` path that leads to SHA1 hash) [See Pro Git book](https://git-scm.com/book/en/v2/Git-Internals-Git-References)
+	*	SHA1 (e.g., `50ed0df30cbb0322331af9256711a94b622f990d`).  Does _not_ move.
+	*	Reference (e.g., `.git/refs/SOMEPATH` path that leads to SHA1 hash).  Can move. [See Pro Git book](https://git-scm.com/book/en/v2/Git-Internals-Git-References)
 
         *   `.git/refs/heads` = point to last commit for a branch
         *   `.git/refs/tags`  = point to lightweight [not annotated] tag
@@ -131,6 +131,8 @@ Branches are references to commits.
 *	Remote branch (e.g., `.git/refs/heads/master` on remote repository)
 *	Remote-tracking branch (e.g., `.git/refs/remotes/origin/master`) = last know position of "remote branch"
 *	Tracking branch = Local branch pegged to remote-tracking branch (e.g., `branch.merge` entry in `.git/config`)
+
+"detached HEAD" state = HEAD is not on a branch HEAD
 
 #### Relative commits (^ vs ~)
 
