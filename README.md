@@ -34,6 +34,7 @@ Effective Git
 - [Getting out of jams](#getting-out-of-jams)
 - [GrabCAD specific](#grabcad-specific)
 - [Development Environment](#development-environment)
+  - [Sample .gitconfig](#sample-gitconfig)
 - [Resources](#resources)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -438,6 +439,41 @@ Development Environment
 	$ brew install ag
 	$ choco install ag
 	```
+
+### Sample .gitconfig
+
+```
+[user]
+	email = jdoe@grabcad.com
+	name = John Doe
+[alias]
+	ann = annotate
+	bl = blame
+	br = branch
+	bs = bisect
+	ci = commit
+	co = checkout
+	cp = cherry-pick
+	di = diff
+	di0 = difftool -y --extcmd='diff -d'
+	dis = diff --staged
+	dt = difftool -y
+	dts = difftool -y --staged
+	logg = log --graph --oneline --decorate
+	loggi = log --graph --format=\"%C(auto)%h%d %C(green)%an%Creset %C(yellow)[%ai]%Creset %s%C\"
+	loggr = log --graph --format=\"%C(auto)%h%d %C(green)%an%Creset %C(yellow)[%ar]%Creset %s%C\"
+	prunetag = !git tag -l | xargs git tag -d && git fetch -t
+	rl = rev-list
+	rp = rev-parse
+	st = status -uno
+	sts = status -uno -s
+[diff]
+	tool = opendiff
+#	tool = meld
+[push]
+	default = simple
+
+```
 
 Resources
 ---------
