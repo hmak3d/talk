@@ -229,7 +229,7 @@ $ git push -u origin NEW_BRANCH
 
 *	`git rev-parse REV` to resolve a revision to the SHA1
 *	`git rev-list REV1..REV2` to resolve a revision range to list of SHA1's
-*	`git cat-file -p REV` to contents of a Git object (`-t` for object type)
+*	`git cat-file -p REV` to get contents of a Git object (`-t` for object type)
 *	`git show --raw REV` is similar to `cat-file` but less low level and has prettier output
 *	`git ls-tree REV` to recursively do `cat-file -p` until you hit a Git tree object
 *	`git merge-base REV1 REV2` to find the last fork point between two branches
