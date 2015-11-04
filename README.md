@@ -205,7 +205,9 @@ Covers 90% of Git usages
 # Create local repo
 $ git clone git@github.com:GrabCAD/eagle-print.git
 $ vim README.txt
+$ git diff
 $ git add README.txt
+$ git diff --staged
 $ git commit README.txt
 
 # Sync between local + remote repos
