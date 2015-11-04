@@ -12,16 +12,16 @@ Effective Git
 
 - [Concepts](#concepts)
   - [Git Object](#git-object)
-    - [Example (view Git objects)](#example-view-git-objects)
+    - [Example: view Git objects](#example-view-git-objects)
   - [Git Revision/Name](#git-revisionname)
     - [Branches](#branches)
     - [Relative commits (^ vs ~)](#relative-commits-%5E-vs-)
     - [Commit ranges](#commit-ranges)
   - [Remote repositories](#remote-repositories)
-    - [Example (syncing across repos laterally)](#example-syncing-across-repos-laterally)
+    - [Example: syncing across repos laterally](#example-syncing-across-repos-laterally)
 - [Basic commands](#basic-commands)
   - [TL;DR](#tldr)
-    - [Example (understand git status output)](#example-understand-git-status-output)
+    - [Example: understand git status output](#example-understand-git-status-output)
   - [Staging Area](#staging-area)
 - [reset vs checkout](#reset-vs-checkout)
 - [rebase vs merge vs reset](#rebase-vs-merge-vs-reset)
@@ -29,6 +29,8 @@ Effective Git
   - [Merging](#merging)
   - [Resetting](#resetting)
 - [Survey of commands](#survey-of-commands)
+  - [Example: doing a rebase](#example-doing-a-rebase)
+  - [Example: undoing a merge](#example-undoing-a-merge)
 - [Getting out of jams](#getting-out-of-jams)
 - [GrabCAD specific](#grabcad-specific)
 - [Development Environment](#development-environment)
@@ -87,7 +89,7 @@ Git is basically a key-value database where keys are SHA1 hashes and values are 
 
 <img src="https://git-scm.com/book/en/v2/book/10-git-internals/images/data-model-3.png" alt="example graph" style="width:500px"/>
 
-#### Example (view Git objects)
+#### Example: view Git objects
 
 ```
 $ ls -la .git/objects/
@@ -170,7 +172,7 @@ http://stackoverflow.com/questions/7251477/what-are-the-differences-between-doub
 *	`git remote -v`
 *	`git push REMOTE_NAME`
 
-#### Example (syncing across repos laterally)
+#### Example: syncing across repos laterally
 
 ```
 $ git remote add pc /Volumes/Users/howard/code/hmak3d/eagle-desktop
@@ -225,7 +227,7 @@ plumbing                | `git ls-tree REV`           | to recursively do `cat-f
 plumbing                | `git merge-base REV1 REV2`  | to find the last fork point between two branches
 
 <!--
-#### Example (understand git status output)
+#### Example: understand git status output
 
 `git status` short output uses: 1st column is staging area. 2nd column is working directory.
 
@@ -351,18 +353,18 @@ Survey of commands
 
 *	`git blame/log` through file renames
 
-*	`git rebase` to rewrite history (1) combine commits (2) split commits
+	```
+	$ git blame      --follow -- NEW_FILENAME
+	$ git log --stat --follow -- NEW_FILENAME
+	$ git blame      --follow RENAME_SHA^ -- OLD_FILENAME
+	$ git log --stat --follow RENAME_SHA^ -- OLD_FILENAME
+	```
 
 *	`git add -p` (or `git add -i`) to trickle in new changes into several commits
 
 *	`git reset` magic
 
 *	`git reflog` to recover from rebase/reset
-
-*	`git revert -m KEEP` to undo a merge
-
-	*	https://git-scm.com/docs/git-revert
-	*	https://github.com/git/git/blob/master/Documentation/howto/revert-a-faulty-merge.txt
 
 *	`git tag` pruning
 
@@ -381,6 +383,29 @@ Survey of commands
 *	`git bisect` to find a bug
 
 *   `git remote prune` to delete remote branches
+
+### Example: doing a rebase
+
+`git rebase` to rewrite history (1) combine commits (2) split commits
+
+```
+$ git fetch origin
+$ git rebase -i master
+$ git rebase -i origin/branch
+```
+
+### Example: undoing a merge
+
+`git revert -m KEEP` to undo a merge
+
+```
+$ git log -1 -m REV
+$ git rev-parse REV^1
+$ git revert -m 1
+```
+
+*	https://git-scm.com/docs/git-revert
+*	https://github.com/git/git/blob/master/Documentation/howto/revert-a-faulty-merge.txt
 
 Getting out of jams
 -------------------
