@@ -115,7 +115,7 @@ $ git cat-file -p c2b9c90
 
     *   Stage colon path (e.g., `:1:README.md`) (for [merges](https://git-scm.com/book/en/v2/Git-Tools-Advanced-Merging#_manual_remerge) `:1` for common stage, `:2` for merge target, `:3` for merge source)
 	*	^ or ~ suffixed (see below "Relative commits")
-	*	Colon prefix (e.g., `HEAD~:README.md`)
+	*	Colon prefix (e.g., `HEAD~:README.md`) (see [Stack Overflow article](http://stackoverflow.com/questions/610208/how-to-retrieve-a-single-file-from-specific-revision-in-git#answer-610315))
     *   ... and more types at ["gitrevisions" manpage](https://git-scm.com/docs/gitrevisions)
 
 *	tree-ish = anything that points to a Git tree
