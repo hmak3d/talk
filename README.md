@@ -337,6 +337,7 @@ Survey of commands
 
 *	`git log`
 
+	*	`git log --grep regexp` to find string in comment
 	*	`git log -S STRING` to find string in diff (i.e., who deleted a line)
 	*	`git log -G REGEXP` to find a regexp pattern in diff
 	*	`git log -p` to report deltas
