@@ -12,18 +12,18 @@ Effective Git
 
 - [Concepts](#concepts)
   - [Git Object](#git-object)
-    - [Example](#example)
+    - [Example (view Git objects)](#example-view-git-objects)
   - [Staging Area](#staging-area)
   - [Git Revision/Name](#git-revisionname)
     - [Branches](#branches)
     - [Relative commits (^ vs ~)](#relative-commits-%5E-vs-)
     - [Commit ranges](#commit-ranges)
   - [Remote repositories](#remote-repositories)
-    - [Example](#example-1)
+    - [Example (syncing across repos laterally)](#example-syncing-across-repos-laterally)
 - [Basic commands](#basic-commands)
   - [TL;DR](#tldr)
   - [Porcelain commands](#porcelain-commands)
-    - [Example](#example-2)
+    - [Example (understand git status output)](#example-understand-git-status-output)
   - [Plumbing commands](#plumbing-commands)
 - [reset vs checkout](#reset-vs-checkout)
 - [rebase vs merge vs reset](#rebase-vs-merge-vs-reset)
@@ -89,7 +89,7 @@ Git is basically a key-value database where keys are SHA1 hashes and values are 
 
 <img src="https://git-scm.com/book/en/v2/book/10-git-internals/images/data-model-3.png" alt="example graph" style="width:500px"/>
 
-#### Example
+#### Example (view Git objects)
 
 ```
 $ ls -la .git/objects/
@@ -184,7 +184,7 @@ http://stackoverflow.com/questions/7251477/what-are-the-differences-between-doub
 *	`git remote -v`
 *	`git push REMOTE_NAME`
 
-#### Example
+#### Example (syncing across repos laterally)
 
 ```
 $ git remote add pc /Volumes/Users/howard/code/hmak3d/eagle-desktop
@@ -225,7 +225,7 @@ $ git push -u origin NEW_BRANCH
 *	Branching: `git branch`, `git checkout`
 *	Stashing: `git stash`, `git stash pop`, `git stash clear`
 
-#### Example
+#### Example (understand git status output)
 
 `git status` short output uses: 1st column is staging area. 2nd column is working directory.
 
