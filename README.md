@@ -113,8 +113,9 @@ $ git cat-file -p c2b9c90
         *   `.git/refs/remotes` = point to last known `HEAD` on remote repos
         *   `.git/refs/pull/[0-9]+/(head|merge)` = point to pull request commit
 
-    *   Colon path (e.g., `:1:README.md`) (for [merges](https://git-scm.com/book/en/v2/Git-Tools-Advanced-Merging#_manual_remerge) `:1` for common stage, `:2` for merge target, `:3` for merge source)
+    *   Stage colon path (e.g., `:1:README.md`) (for [merges](https://git-scm.com/book/en/v2/Git-Tools-Advanced-Merging#_manual_remerge) `:1` for common stage, `:2` for merge target, `:3` for merge source)
 	*	^ or ~ suffixed (see below "Relative commits")
+	*	Colon prefix (e.g., `HEAD~:README.md`)
     *   ... and more types at ["gitrevisions" manpage](https://git-scm.com/docs/gitrevisions)
 
 *	tree-ish = anything that points to a Git tree
