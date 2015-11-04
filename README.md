@@ -13,7 +13,6 @@ Effective Git
 - [Concepts](#concepts)
   - [Git Object](#git-object)
     - [Example (view Git objects)](#example-view-git-objects)
-  - [Staging Area](#staging-area)
   - [Git Revision/Name](#git-revisionname)
     - [Branches](#branches)
     - [Relative commits (^ vs ~)](#relative-commits-%5E-vs-)
@@ -22,9 +21,8 @@ Effective Git
     - [Example (syncing across repos laterally)](#example-syncing-across-repos-laterally)
 - [Basic commands](#basic-commands)
   - [TL;DR](#tldr)
-  - [Porcelain commands](#porcelain-commands)
     - [Example (understand git status output)](#example-understand-git-status-output)
-  - [Plumbing commands](#plumbing-commands)
+  - [Staging Area](#staging-area)
 - [reset vs checkout](#reset-vs-checkout)
 - [rebase vs merge vs reset](#rebase-vs-merge-vs-reset)
   - [Rebasing](#rebasing)
@@ -101,19 +99,6 @@ $ git cat-file -p c2b9c90
 
 [See Pro Git book](https://git-scm.com/book/en/v2/Git-Internals-Git-Objects)
 
-### Staging Area
-
-File has 4 states:
-
-state     | working directory | staging area | repository
---------- | ----------------- | ------------ | ----------
-untracked | new               |              |
-modified  | new               | old          | old
-staged    |                   | new          | old
-committed |                   |              | x
-
-<img src="https://git-scm.com/book/en/v2/book/01-introduction/images/areas.png" alt="areas" style="width:400px"/>
-
 ### Git Revision/Name
 
 *	Is a "pointer" to Git object
@@ -123,7 +108,7 @@ committed |                   |              | x
 
         *   `.git/refs/heads` = point to last commit for a branch
         *   `.git/refs/tags`  = point to lightweight [not annotated] tag
-        *   `.git/refs/remotes` =
+        *   `.git/refs/remotes` = point to last known `HEAD` on remote repos
         *   `.git/refs/pull/[0-9]+/(head|merge)` = point to pull request commit
 
     *   Colon path (e.g., `:1:README.md`) (for [merges](https://git-scm.com/book/en/v2/Git-Tools-Advanced-Merging#_manual_remerge) `:1` for common stage, `:2` for merge target, `:3` for merge source)
@@ -139,9 +124,10 @@ committed |                   |              | x
 
 Branches are references to commits.
 
-*	Local branch
-*	Remote branch (local snapshot vs revision on remote repo)
-*	Remote tracking branch = local branch pegged to remote branch
+*	Local branch (e.g., `.git/refs/heads/master`)
+*	Remote branch (e.g., `.git/refs/heads/master` on remote repository)
+*	Remote-tracking branch (e.g., `.git/refs/remotes/origin/master`) = last know position of "remote branch"
+*	Tracking branch = Local branch pegged to remote-tracking branch
 
 #### Relative commits (^ vs ~)
 
@@ -219,12 +205,26 @@ $ git checkout -b NEW_BRANCH
 $ git push -u origin NEW_BRANCH
 ```
 
-### Porcelain commands
+type                    | command                     | description
+----------------------- | --------------------------  | -----------
+porcelain / basic       | `git clone`                 |
+porcelain / basic       | `git add`                   |
+porcelain / basic       | `git commit`                |
+porcelain / basic       | `git push`                  |
+porcelain / basic       | `git pull`                  | = `git fetch` + `git merge`
+porcelain / branching   | `git branch`                |
+porcelain / branching   | `git checkout`              |
+porcelain / stashing    | `git stash`                 |
+porcelain / stashing    | `git stash pop`             |
+porcelain / stashing    | `git stash clear`           |
+plumbing                | `git rev-parse REV`         | to resolve a revision to the SHA1
+plumbing                | `git rev-list REV1..REV2`   | to resolve a revision range to list of SHA1's
+plumbing                | `git cat-file -p REV`       | to get contents of a Git object (`-t` for object type)
+plumbing                | `git show --raw REV`        | is similar to `cat-file` but less low level and has prettier output
+plumbing                | `git ls-tree REV`           | to recursively do `cat-file -p` until you hit a Git tree object
+plumbing                | `git merge-base REV1 REV2`  | to find the last fork point between two branches
 
-*	Basics: `git clone`, `git add`, `git commit`, `git push`, `git pull` = (`git fetch` + `git merge`)
-*	Branching: `git branch`, `git checkout`
-*	Stashing: `git stash`, `git stash pop`, `git stash clear`
-
+<!--
 #### Example (understand git status output)
 
 `git status` short output uses: 1st column is staging area. 2nd column is working directory.
@@ -254,15 +254,20 @@ During conflicts
 	M  services/validationService.js
 	UU views/viewer/viewer.js
 	```
+-->
 
-### Plumbing commands
+### Staging Area
 
-*	`git rev-parse REV` to resolve a revision to the SHA1
-*	`git rev-list REV1..REV2` to resolve a revision range to list of SHA1's
-*	`git cat-file -p REV` to get contents of a Git object (`-t` for object type)
-*	`git show --raw REV` is similar to `cat-file` but less low level and has prettier output
-*	`git ls-tree REV` to recursively do `cat-file -p` until you hit a Git tree object
-*	`git merge-base REV1 REV2` to find the last fork point between two branches
+File has 4 states:
+
+state     | working directory | staging area | repository
+--------- | ----------------- | ------------ | ----------
+untracked | new               |              |
+modified  | new               | old          | old
+staged    |                   | new          | old
+committed |                   |              | x
+
+<img src="https://git-scm.com/book/en/v2/book/01-introduction/images/areas.png" alt="areas" style="width:400px"/>
 
 reset vs checkout
 -----------------
