@@ -15,6 +15,7 @@ Effective Git
     - [Example: View Git objects](#example-view-git-objects)
   - [Git Revision/Name](#git-revisionname)
     - [Branches](#branches)
+    - [Detached HEAD](#detached-head)
     - [Relative commits (^ vs ~)](#relative-commits-%5E-vs-)
     - [Commit ranges](#commit-ranges)
   - [Remote repositories](#remote-repositories)
@@ -30,6 +31,7 @@ Effective Git
   - [Resetting](#resetting)
 - [Survey of commands](#survey-of-commands)
   - [Example: Do a rebase](#example-do-a-rebase)
+  - [Example: Recover from a pushed rebase](#example-recover-from-a-pushed-rebase)
   - [Example: Undo a merge](#example-undo-a-merge)
   - [Example: Find a bug using git bisect](#example-find-a-bug-using-git-bisect)
 - [Getting out of jams](#getting-out-of-jams)
@@ -427,6 +429,37 @@ To combine commits:
 	$ git commit
 	$ git rebase --continue
 ```
+
+### Example: Recover from a pushed rebase
+
+You have *not* made any commits, but after a `fetch` you see
+
+```
+$ git status
+On branch master
+Your branch and 'origin/master' have diverged,
+and have 1 and 1 different commit each, respectively.
+  (use "git pull" to merge the remote branch into yours)
+nothing to commit (use -u to show untracked files)
+```
+
+Someone else must have pushed out a rebase without warning you.
+They [shouldn't have](#rebase-vs-merge-vs-reset).  :anguished:
+
+The error message is cryptic because a rebase causes older commits to no longer
+belong to the remote repo (`origin` in this case).  The abandoned/orphaned
+commits incorrectly appear to Git as changes you've made [not past changes
+already made on `origin`].
+
+Since you are sure you do *not* have any commits, recover by doing:
+
+```
+$ git reset --hard origin/master
+```
+
+Note: If you *did* have commits, then you can do:
+*	another `git rebase` on `origin/master` if you're nice, or
+*	a `git merge` if the house is burning
 
 ### Example: Undo a merge
 
