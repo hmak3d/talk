@@ -223,24 +223,25 @@ $ git checkout -b NEW_BRANCH
 $ git push -u origin NEW_BRANCH
 ```
 
-type                    | command                     | description
------------------------ | --------------------------  | -----------
-porcelain / basic       | `git clone`                 |
-porcelain / basic       | `git add`                   |
-porcelain / basic       | `git commit`                |
-porcelain / basic       | `git push`                  |
-porcelain / basic       | `git pull`                  | = `git fetch` + `git merge`
-porcelain / branching   | `git branch`                |
-porcelain / branching   | `git checkout`              |
-porcelain / stashing    | `git stash`                 |
-porcelain / stashing    | `git stash pop`             |
-porcelain / stashing    | `git stash clear`           |
-plumbing                | `git rev-parse REV`         | to resolve a revision to the SHA1
-plumbing                | `git rev-list REV1..REV2`   | to resolve a revision range to list of SHA1's
-plumbing                | `git cat-file -p REV`       | to get contents of a Git object (`-t` for object type)
-plumbing                | `git show --raw REV`        | is similar to `cat-file` but less low level and has prettier output
-plumbing                | `git ls-tree REV`           | to recursively do `cat-file -p` until you hit a Git tree object
-plumbing                | `git merge-base REV1 REV2`  | to find the last fork point between two branches
+type        | use case     | command                     | description
+----------- | ------------ | --------------------------  | -----------
+porcelain   |  basic       | `git clone`                 |
+porcelain   |  basic       | `git add`                   |
+porcelain   |  basic       | `git commit`                |
+porcelain   |  basic       | `git push`                  |
+porcelain   |  basic       | `git pull`                  | = `git fetch` + `git merge`
+porcelain   |  branching   | `git branch`                |
+porcelain   |  branching   | `git checkout`              |
+porcelain   |  stashing    | `git stash`                 |
+porcelain   |  stashing    | `git stash pop`             |
+porcelain   |  stashing    | `git stash clear`           |
+plumbing    |              | `git rev-parse REV`         | to resolve a revision to the SHA1
+plumbing    |              | `git rev-list REV1..REV2`   | to resolve a revision range to list of SHA1's
+plumbing    |              | `git cat-file -p REV`       | to get contents of a Git object (`-t` for object type)
+plumbing    |              | `git show --raw REV`        | is similar to `cat-file` but less low level and has prettier output
+plumbing    |              | `git ls-tree REV`           | to recursively do `cat-file -p` until you hit a Git tree object
+plumbing    |              | `git merge-base REV1 REV2`  | to find the last fork point between two branches
+plumbing    |              | `git reflog`                | to recover from "lost" commits [from `reset`, `rebase`, detached HEAD]
 
 <!--
 #### Example: understand git status output
