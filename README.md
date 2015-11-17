@@ -129,9 +129,14 @@ $ git cat-file -p c2b9c90
 Branches are references to commits.
 
 *	Local branch (e.g., `.git/refs/heads/master`)
+	*	Is moved by `reset` or `checkout`
 *	Remote branch (e.g., `.git/refs/heads/master` on remote repository)
+	*	Is moved \[on remote repo\] when others `push` to it
 *	Remote-tracking branch (e.g., `.git/refs/remotes/origin/master`) = last know position of "remote branch"
+	*	Is moved by `fetch` or `pull`
 *	Tracking branch = Local branch pegged to remote-tracking branch (e.g., `branch.merge` entry in `.git/config`)
+	*	Is moved by `reset` or `checkout` (i.e., same as local branch)
+	*	`status` is affected by either: local branch move or remote-tracking branch move
 
 "detached HEAD" state = HEAD is not on a branch HEAD
 
