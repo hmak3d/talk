@@ -543,6 +543,8 @@ Development Environment
 	loggi = log --graph --format=\"%C(auto)%h%d %C(green)%an%Creset %C(yellow)[%ai]%Creset %s%C\"
 	loggr = log --graph --format=\"%C(auto)%h%d %C(green)%an%Creset %C(yellow)[%ar]%Creset %s%C\"
 	prunetag = !git tag -l | xargs git tag -d && git fetch -t
+	reflogi = reflog --format=\"%C(auto)%h %gd [%ai] %s\"
+	reflogr = reflog --format=\"%C(auto)%h %gd [%ar] %s\"
 	rl = rev-list
 	rp = rev-parse
 	st = status -uno
