@@ -138,7 +138,14 @@ Branches are references to commits.
 	*	Is moved by `reset` or `checkout` (i.e., same as local branch)
 	*	`status` is affected by either: local branch move or remote-tracking branch move
 
-"detached HEAD" state = HEAD is not on a branch HEAD
+#### Detached HEAD
+
+"detached HEAD" state = current HEAD is *not* on a branch HEAD
+
+*	Okay for viewing
+*	Do _not_ do this for commits.
+	*	Otherwise, you will "lose" the commit when you do `checkout` to another branch or tag.
+	*	If you do this by mistake, use `reflog` to recover.
 
 #### Relative commits (^ vs ~)
 
