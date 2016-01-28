@@ -531,14 +531,19 @@ GrabCAD specific
 Development Environment
 -----------------------
 
-* Vim Git plugin:     http://www.vim.org/scripts/script.php?script_id=90
+*	Vim Git plugin:     http://www.vim.org/scripts/script.php?script_id=90
 
 	```
 	let mapleader = ","
 	let VCSCommandMapPrefix = "<Leader>v"	" So that VCSCommand uses ,v instead of ,c
 	```
 
-* Bash Git autocomplete
+*	Other Vim plugins
+	*	[Vundle package manager](https://github.com/VundleVim/Vundle.vim)
+	*	[Sublime-like multiple cursors](https://github.com/terryma/vim-multiple-cursors)
+	*	[Emmet dynamic snippets](https://github.com/mattn/emmet-vim)
+
+*	Bash Git autocomplete
 
 	```
 	# On Mac/Homebrew, setup via: brew install bash-completion
@@ -546,7 +551,7 @@ Development Environment
 	[ -n "${IS_WIN}" ] && [ -f /etc/git-completion.bash ] && source /etc/git-completion.bash
 	```
 
-* zsh
+*	zsh
 
 *	Git clients
 	*	msysGit (CLI bundled with Git install for Windows) https://git-for-windows.github.io/
