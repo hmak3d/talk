@@ -232,6 +232,7 @@ porcelain   |  basic       | `git add`                   |
 porcelain   |  basic       | `git commit`                |
 porcelain   |  basic       | `git push`                  |
 porcelain   |  basic       | `git pull`                  | = `git fetch` + `git merge`
+porcelain   |  basic       | `git describe --match '[0-9]*' --tag REV` | to show how far removed a commit is from the latest #.#.# tag
 porcelain   |  branching   | `git branch`                |
 porcelain   |  branching   | `git checkout`              |
 porcelain   |  stashing    | `git stash`                 |
