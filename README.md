@@ -31,6 +31,7 @@ Effective Git
   - [Resetting](#resetting)
 - [Survey of commands](#survey-of-commands)
   - [Determine when a branch split off from master](#determine-when-a-branch-split-off-from-master)
+  - [Determine when a commit was eventually merged into master](#determine-when-a-commit-was-eventually-merged-into-master)
   - [Example: Do a rebase](#example-do-a-rebase)
   - [Example: Recover from a pushed rebase](#example-recover-from-a-pushed-rebase)
   - [Example: Undo a merge](#example-undo-a-merge)
@@ -450,6 +451,98 @@ Given
 ```
 
 `git merge-base A B C` = `git merge-base A M` = 1
+
+### Determine when a commit was eventually merged into master
+
+**TL;DR**
+
+```
+	$ git log SHA1..master --oneline --ancestry-path > since.txt           # get direct path from SHA1 to master/head
+	$ git log SHA1..master --oneline --merges --first-parent > merges.txt  # get merges onto master done *after* SHA1
+	$ comm -12 since.txt merges.txt | tail -1                              # get earlier common commit between above 2 results
+```
+
+
+There is no single command.  General approach is:
+
+1.	Get commits between your SHA1 + master.  This will include extra stuff for commits done after the answer.
+2.	Get commits for merges along master made after the SHA1.  This will include extra stuff for other branch merges done before the answer.
+3.	First the earliest commit between the two lists.  This is the answer.
+
+**Explanation**
+
+*	`--ancestry-path` prunes commits only to those on a direct path.
+
+	Given
+
+	```
+							   D---E-------F
+							  /     \       \
+							 B---C---G---H---I---J
+							/                     \
+						   A-------K---------------L--M
+	```
+
+	D..M = ^D M          = {C, K, E, F, G, H, I, J, L, M } (i.e., everything but {A, B, D})
+
+	```
+							   D---E-------F
+							        \       \
+							     C---G---H---I---J
+							                      \
+						           K---------------L--M
+	```
+
+	D..M `--ancestry-path` drops stuff that is *not* in the direct path between D + M (i.e., everything but {A, B, D, C, K})
+
+	```
+							   D---E-------F
+							        \       \
+							         G---H---I---J
+							                      \
+						                           L--M
+	```
+
+*	`--merges` prunes commits only to merges.  This is useful for ignoring branch activity.
+
+	Given
+
+	```
+							   D---E-------F
+							  /     \       \
+							 B---C---G---H---I---J
+							/                     \
+						   A-------K---------------L--M
+	```
+
+	`git log --merges M` = { G, I, L }
+
+*	`--first-parent` prunes commits only to first parents.  This is useful for ignoring branch activity.
+
+	Given
+
+	```
+							   D---E-------F
+							  /     \       \
+							 B---C---G---H---I---J
+							/                     \
+						   A-------K---------------L--M
+	```
+
+	`git log --first-parent M` = { A, K, L }
+
+	So combining first-parent + merges is useful.  If we have
+
+
+	```
+							   D---E-------F
+							  /     \       \
+							 B---C---G---H---I---J
+							/         \           \
+						   A-------K---N-----------L--M
+	```
+
+	`git log --first-parent --merges M` = { N, L }
 
 ### Example: Do a rebase
 
