@@ -401,6 +401,8 @@ Survey of commands
 
 *	`git merge -Xignore-all-space` to reduce conflicts
 
+*	`git merge --no-commit -X subtree=DIR eagle-desktop/GC-25779-NoStoreSelect` to merge remote branch into directory DIR in local checkout
+
 *   `git remote prune` or `git fetch --prune` to delete remote-tracking branches
 
 *	`git add -p` (or `git add -i`) to trickle in new changes into several commits
