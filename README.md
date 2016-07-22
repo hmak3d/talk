@@ -757,5 +757,6 @@ Resources
 *	http://gitref.org/index.html (Concise survey of Git)
 *	http://alblue.bandlem.com/Tag/gtotw/ (Blog covering tips that shed light on Git internals)
 *	http://www.git-tower.com/blog/git-cheat-sheet (Git CLI command cheat sheet)
+*	https://commondatastorage.googleapis.com/chrome-infra-docs/flat/depot_tools/docs/html/depot_tools_tutorial.html#_prerequisites Chromium recommendations for Git onboarding
 
 // vim:noet:ic:isk+=-
