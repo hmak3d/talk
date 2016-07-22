@@ -30,6 +30,7 @@ Effective Git
   - [Merging](#merging)
   - [Resetting](#resetting)
 - [Survey of commands](#survey-of-commands)
+  - [Determine when a branch split off from master](#determine-when-a-branch-split-off-from-master)
   - [Example: Do a rebase](#example-do-a-rebase)
   - [Example: Recover from a pushed rebase](#example-recover-from-a-pushed-rebase)
   - [Example: Undo a merge](#example-undo-a-merge)
@@ -406,6 +407,49 @@ Survey of commands
 *   `git remote prune` or `git fetch --prune` to delete remote-tracking branches
 
 *	`git add -p` (or `git add -i`) to trickle in new changes into several commits
+
+### Determine when a branch split off from master
+
+**TL;DR**
+
+`git merge-base branch master`
+
+**Explanation**
+
+Given
+
+```
+			o---o---o---B
+		   /
+	---o---1---o---o---o---A
+```
+
+`git merge-base A B` is 1
+
+But what about more than 3 branches?
+
+Given
+
+```
+		  o---o---o---o---C
+		 /
+		/   o---o---o---B
+	   /   /
+	---2---1---o---o---o---A
+```
+
+`git merge-base A B C` is 1 because the arguments are iteratively combined into hypothetical merges.  i.e.,
+
+```
+                  o---o---o---o---o
+                 /                 \
+                /   o---o---o---o---M
+               /   /
+           ---2---1---o---o---o---A
+
+```
+
+`git merge-base A B C` = `git merge-base A M` = 1
 
 ### Example: Do a rebase
 
